@@ -74,7 +74,7 @@ const Card = ({ title, description, category, price, pictureUrl }) => {
       </p>
 
       <button
-        className='w-full bg-zinc-950 text-card-color font-bold text-base p-4 rounded-b-5xl border-t-2 border-t-card-color border-solid hover:bg-card-color hover:text-zinc-950 hover:border-t-2 hover:border-t-transparent hover:border-solid duration-200'
+        className='w-full bg-zinc-950 text-card-color font-bold text-base p-3 rounded-b-5xl border-t-2 border-t-card-color border-solid hover:bg-card-color hover:text-zinc-950 hover:border-t-2 hover:border-t-transparent hover:border-solid duration-200'
         onClick={() => setCount(count + 1)}
       >
         Add to Cart
