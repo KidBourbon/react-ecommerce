@@ -1,7 +1,7 @@
-import "./styles.css";
+import { Layout } from '../../Components/Layout';
 
 function MyAccount() {
-  return <div className="bg-lime-600">MyAccount</div>;
+  return <Layout>My Account</Layout>;
 }
 
 export { MyAccount };

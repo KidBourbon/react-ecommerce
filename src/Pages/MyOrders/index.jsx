@@ -1,7 +1,7 @@
-import "./styles.css";
+import { Layout } from '../../Components/Layout';
 
 function MyOrders() {
-  return <div className="bg-lime-600">MyOrders</div>;
+  return <Layout>My Orders</Layout>;
 }
 
 export { MyOrders };

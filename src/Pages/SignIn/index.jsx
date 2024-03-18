@@ -1,7 +1,7 @@
-import "./styles.css";
+import { Layout } from '../../Components/Layout';
 
 function SignIn() {
-  return <div className="bg-lime-600">SignIn</div>;
+  return <Layout>Sign In</Layout>;
 }
 
 export { SignIn };

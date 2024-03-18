@@ -1,7 +1,7 @@
-import "./styles.css";
+import { Layout } from '../../Components/Layout';
 
 function NotFound() {
-  return <div className="bg-lime-600">NotFound</div>;
+  return <Layout>Not Found</Layout>;
 }
 
 export { NotFound };
