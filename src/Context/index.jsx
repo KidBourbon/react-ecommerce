@@ -1,20 +1,20 @@
 import { createContext, useState } from 'react';
 
-const ShoppingCartContext = createContext();
+const GlobalContext = createContext();
 
-const ShoppingCartProvider = ({ children }) => {
+const GlobalProvider = ({ children }) => {
   const [count, setCount] = useState(0);
 
   return (
-    <ShoppingCartContext.Provider
+    <GlobalContext.Provider
       value={{
         count,
         setCount,
       }}
     >
       {children}
-    </ShoppingCartContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 
-export { ShoppingCartContext, ShoppingCartProvider };
+export { GlobalContext, GlobalProvider };
