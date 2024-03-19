@@ -1,11 +1,11 @@
-.card-1:hover .card__img {
+.layer-1:hover .card-img {
   border-top-left-radius: 2.5rem;
   border-top-right-radius: 2.5rem;
 }
-.card-1:hover .card-2 {
+.layer-1:hover .layer-2 {
   box-shadow: 0 0 30px 1px rgba(0, 255, 117, 0.3);
 }
-.card-1:hover .card-3 {
+.layer-1:hover .layer-3 {
   border-radius: 2.5rem;
   border-color: transparent;
   transform: scale(0.98);

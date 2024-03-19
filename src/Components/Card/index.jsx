@@ -14,15 +14,15 @@ const Card = ({ title, description, category, price, pictureUrl }) => {
   const { count, setCount, openProductDetail } = useContext(GlobalContext);
 
   return (
-    <div className='card-1 w-72 h-96 bg-transparent'>
+    <div className='layer-1 w-72 h-96 bg-transparent'>
       <div
-        className='card-2 w-full h-full rounded-5xl bg-[#00d664] cursor-pointer transition-all duration-300'
+        className='layer-2 w-full h-full rounded-5xl bg-[#00d664] cursor-pointer transition-all duration-300'
         onClick={openProductDetail}
       >
-        <div className='card-3 flex flex-col w-full h-full border-2 border-solid border-card-color bg-zinc-950 transition-all duration-200'>
+        <div className='layer-3 flex flex-col w-full h-full border-2 border-solid border-card-color bg-zinc-950 transition-all duration-200'>
           <figure className='flex-grow relative w-full h-[37%]'>
             <img
-              className='card__img w-full h-full p-0.5 object-cover text-white transition-all duration-200'
+              className='card-img w-full h-full p-0.5 object-cover text-white transition-all duration-200'
               src={pictureUrl}
               alt={description}
               onError={onImgLoadError}
