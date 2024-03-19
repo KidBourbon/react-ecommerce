@@ -10,7 +10,7 @@ const Navbar = () => {
   const { count } = useContext(GlobalContext);
 
   return (
-    <nav className='w-full flex justify-between items-center fixed top-0 gap-4 py-5 pl-8 pr-10 border-b-2 text-base font-normal bg-white z-10'>
+    <nav className='w-full h-17.5 flex justify-between items-center fixed top-0 gap-4 py-5 pl-8 pr-10 border-b-2 border-zinc-400 text-base font-normal text-white bg-zinc-900 z-10'>
       <ul className='flex items-center gap-4'>
         <li className='font-semibold text-lg mr-4'>
           <NavLink to='/'>Shopi</NavLink>
