@@ -1,0 +1,7 @@
+.card-1:hover .card__img {
+  border-top-left-radius: 2.5rem;
+  border-top-right-radius: 2.5rem;
+}
+.card-1:hover .card-2 {
+  border-radius: 2.5rem;
+}
