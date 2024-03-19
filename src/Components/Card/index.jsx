@@ -15,7 +15,7 @@ const Card = ({ title, description, category, price, pictureUrl }) => {
 
   return (
     <div
-      className='card-1 w-72 h-96 rounded-5xl bg-[#00ff75] hover:shadow-[0_0_30px_1px_rgba(0,255,117,0.3)] cursor-pointer transition-all duration-300'
+      className='card-1 w-72 h-96 rounded-5xl bg-[#00d664] hover:shadow-[0_0_30px_1px_rgba(0,255,117,0.3)] cursor-pointer transition-all duration-300'
       onClick={openProductDetail}
     >
       <div className='card-2 flex flex-col w-full h-full border-2 border-solid border-card-color hover:border-transparent bg-zinc-950 transition-all duration-200 hover:scale-[0.98]'>
