@@ -13,8 +13,6 @@ export default {
       height: {
         // Height for aside menu
         aside: 'calc(100vh - 4.5rem)',
-      },
-      margin: {
         17.5: '4.375rem',
       },
       borderRadius: {
