@@ -13,22 +13,41 @@ export default {
       height: {
         // Height for aside menu
         aside: 'calc(100vh - 4.5rem)',
-        17.5: '4.375rem',
       },
       borderRadius: {
         '4xl': '2rem',
         '5xl': '2.5rem',
       },
       textColor: {
+        // Text color for Card
         'card-color': '#569E67',
       },
       borderColor: {
+        // Border color for Card
         'card-color': '#569E67',
       },
       backgroundColor: {
+        // Background color for Card
         'card-color': '#569E67',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none' /* IE and Edge */,
+          'scrollbar-width': 'none' /* Firefox */,
+        },
+      };
+
+      addUtilities(newUtilities);
+    },
+  ],
 };
