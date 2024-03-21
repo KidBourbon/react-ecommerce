@@ -1,4 +1,4 @@
-import { forwardRef, useContext } from 'react';
+import { useContext } from 'react';
 
 import { GlobalContext } from '../../Context';
 
@@ -10,23 +10,43 @@ const onImgLoadError = event => {
   event.onerror = null;
 };
 
-const ProductDetail = forwardRef((props, ref) => {
+const ProductDetail = () => {
   const {
-    count,
-    setCount,
+    cartProducts,
+    setCartProducts,
     isProductDetailOpen,
     closeProductDetail,
     itemToShow,
+    productDetailWasClickedRef,
   } = useContext(GlobalContext);
 
   const { title, description, category, price, pictureUrl } = itemToShow;
+
+  const updateProductDetailWasClickedRef = wasClicked => {
+    productDetailWasClickedRef.current = wasClicked;
+  };
+
+  const onClickAside = () => updateProductDetailWasClickedRef(true);
+
+  const addProductToCart = () => {
+    setCartProducts([
+      ...cartProducts,
+      {
+        title,
+        description,
+        category,
+        price,
+        pictureUrl,
+      },
+    ]);
+  };
 
   return (
     <aside
       className={`${
         isProductDetailOpen ? 'right-[0.1rem]' : '-right-96'
       } flex flex-col items-center gap-4 fixed w-96 h-aside p-4 border-solid border-8 border-black outline outline-4 outline-white -outline-offset-[6px] rounded-lg bg-zinc-900 overflow-y-scroll overscroll-contain no-scrollbar transition-all ease-in-out duration-500`}
-      ref={ref}
+      onClick={onClickAside}
     >
       <div className='flex justify-between items-center w-full'>
         <h2 className='font-medium text-xl text-white'>Details</h2>
@@ -59,13 +79,13 @@ const ProductDetail = forwardRef((props, ref) => {
       <div className='flex-grow flex items-end w-full'>
         <button
           className='w-full my-2 p-3 bg-zinc-950 text-card-color font-bold rounded-3xl border-2 border-card-color border-solid hover:bg-card-color hover:text-zinc-950 hover:border-t-2 hover:border-t-transparent hover:border-solid duration-200'
-          onClick={() => setCount(count + 1)}
+          onClick={addProductToCart}
         >
           Add to Cart
         </button>
       </div>
     </aside>
   );
-});
+};
 
 export { ProductDetail };

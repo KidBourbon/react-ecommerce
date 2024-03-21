@@ -1,9 +1,10 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { Layout } from '../../Components/Layout';
 import { Card } from '../../Components/Card';
 import { ProductDetail } from '../../Components/ProductDetail';
 import { GlobalContext } from '../../Context';
+import { CheckoutSideMenu } from '../../Components/CheckoutSideMenu';
 
 const formatPrice = price =>
   Intl.NumberFormat('en-US', {
@@ -11,38 +12,57 @@ const formatPrice = price =>
     currency: 'USD',
   }).format(price);
 
-let eventAdded = false;
-
 const Home = () => {
-  const asideRef = useRef(null);
-  const cardsRef = useRef(new Map());
-
-  const { items, closeProductDetail } = useContext(GlobalContext);
+  const {
+    items,
+    closeProductDetail,
+    closeCheckoutSideMenu,
+    cardWasClickedRef,
+    cardButtonWasClickedRef,
+    productDetailWasClickedRef,
+    checkoutSideMenuWasClickedRef,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
-    if (!eventAdded) {
-      eventAdded = true;
+    const onClick = () => {
+      const productDetailWasClicked = productDetailWasClickedRef.current;
+      if (productDetailWasClicked) {
+        productDetailWasClickedRef.current = false;
+        return;
+      }
 
-      const onClick = event => {
-        if (asideRef?.current?.contains(event.target)) {
-          return;
-        } else {
-          const map = cardsRef.current;
+      const cardWasClicked = cardWasClickedRef.current;
+      if (cardWasClicked) {
+        cardWasClickedRef.current = false;
+        return;
+      }
 
-          for (const pair of map) {
-            const card = pair[1];
+      closeProductDetail();
+    };
 
-            if (card.contains(event.target)) {
-              return;
-            }
-          }
-        }
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, []);
 
-        closeProductDetail();
-      };
+  useEffect(() => {
+    const onClick = () => {
+      const checkoutSideMenuWasClicked = checkoutSideMenuWasClickedRef.current;
+      if (checkoutSideMenuWasClicked) {
+        checkoutSideMenuWasClickedRef.current = false;
+        return;
+      }
 
-      window.addEventListener('click', onClick);
-    }
+      const cardButtonWasClicked = cardButtonWasClickedRef.current;
+      if (cardButtonWasClicked) {
+        cardButtonWasClickedRef.current = false;
+        return;
+      }
+
+      closeCheckoutSideMenu();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
   }, []);
 
   return (
@@ -51,25 +71,18 @@ const Home = () => {
         {items?.map(item => (
           <Card
             key={item?.id}
+            id={item?.id}
             title={item?.title}
             description={item?.description}
             price={formatPrice(item?.price)}
             category={item?.category?.name}
             pictureUrl={item?.images[0]}
-            ref={card => {
-              const map = cardsRef.current;
-
-              if (card) {
-                map.set(item?.id, card);
-              } else {
-                map.delete(item?.id);
-              }
-            }}
           />
         ))}
       </div>
 
-      <ProductDetail ref={asideRef} />
+      <ProductDetail />
+      <CheckoutSideMenu />
     </Layout>
   );
 };

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 
 const GlobalContext = createContext();
 
@@ -12,13 +12,23 @@ const GlobalProvider = ({ children }) => {
   // Shopping cart counter
   const count = cartProducts.length;
 
-  // Open/Close ProductDetail menu
+  // Open/Close Product Detail menu
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
 
-  // Item to show in ProductDetail menu
+  // Open/Close Cheackout Side Menu
+  const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
+  const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
+  const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
+
+  // Item to show in the Product Detail menu
   const [itemToShow, setItemToShow] = useState({});
+
+  const cardWasClickedRef = useRef(false);
+  const cardButtonWasClickedRef = useRef(false);
+  const productDetailWasClickedRef = useRef(false);
+  const checkoutSideMenuWasClickedRef = useRef(false);
 
   return (
     <GlobalContext.Provider
@@ -28,11 +38,18 @@ const GlobalProvider = ({ children }) => {
         count,
         items,
         setItems,
+        isProductDetailOpen,
         openProductDetail,
         closeProductDetail,
-        isProductDetailOpen,
+        isCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu,
         itemToShow,
         setItemToShow,
+        cardWasClickedRef,
+        cardButtonWasClickedRef,
+        productDetailWasClickedRef,
+        checkoutSideMenuWasClickedRef,
       }}
     >
       {children}
