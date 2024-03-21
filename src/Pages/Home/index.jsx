@@ -1,11 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import { Layout } from '../../Components/Layout';
 import { Card } from '../../Components/Card';
 import { ProductDetail } from '../../Components/ProductDetail';
 import { GlobalContext } from '../../Context';
-
-const getProductsUrl = 'https://api.escuelajs.co/api/v1/products';
 
 const formatPrice = price =>
   Intl.NumberFormat('en-US', {
@@ -13,42 +11,38 @@ const formatPrice = price =>
     currency: 'USD',
   }).format(price);
 
-const Home = () => {
-  const [items, setItems] = useState([]);
+let eventAdded = false;
 
+const Home = () => {
   const asideRef = useRef(null);
   const cardsRef = useRef(new Map());
 
-  const { closeProductDetail } = useContext(GlobalContext);
+  const { items, closeProductDetail } = useContext(GlobalContext);
 
   useEffect(() => {
-    fetch(getProductsUrl)
-      .then(response => response.json())
-      .then(data => setItems(data));
-  }, []);
+    if (!eventAdded) {
+      eventAdded = true;
 
-  useEffect(() => {
-    const onClick = event => {
-      if (asideRef.current.contains(event.target)) {
-        return;
-      } else {
-        const map = cardsRef.current;
+      const onClick = event => {
+        if (asideRef?.current?.contains(event.target)) {
+          return;
+        } else {
+          const map = cardsRef.current;
 
-        for (const pair of map) {
-          const card = pair[1];
+          for (const pair of map) {
+            const card = pair[1];
 
-          if (card.contains(event.target)) {
-            return;
+            if (card.contains(event.target)) {
+              return;
+            }
           }
         }
-      }
 
-      closeProductDetail();
-    };
+        closeProductDetail();
+      };
 
-    window.addEventListener('click', onClick);
-
-    console.log('useEffect executed');
+      window.addEventListener('click', onClick);
+    }
   }, []);
 
   return (

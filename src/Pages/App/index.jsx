@@ -7,7 +7,11 @@ import { MyOrders } from '../MyOrders';
 import { NotFound } from '../NotFound';
 import { SignIn } from '../SignIn';
 import { Navbar } from '../../Components/Navbar';
-import { GlobalProvider } from '../../Context';
+import { GlobalContext } from '../../Context';
+import { useContext, useEffect } from 'react';
+
+const getProductsUrl = 'https://api.escuelajs.co/api/v1/products';
+let didFetch = false;
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -23,13 +27,23 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  const { setItems } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (!didFetch) {
+      didFetch = true;
+
+      fetch(getProductsUrl)
+        .then(response => response.json())
+        .then(data => setItems(data));
+    }
+  }, []);
+
   return (
-    <GlobalProvider>
-      <BrowserRouter>
-        <Navbar />
-        <AppRoutes />
-      </BrowserRouter>
-    </GlobalProvider>
+    <BrowserRouter>
+      <Navbar />
+      <AppRoutes />
+    </BrowserRouter>
   );
 };
 
