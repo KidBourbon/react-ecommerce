@@ -1,24 +1,33 @@
-import { createContext, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
-  // Shopping cart counter
-  const [count, setCount] = useState(0);
+  // All products in store
+  const [items, setItems] = useState([]);
 
-  // Product Detail aside - Open/Close
+  // Products in cart
+  const [cartProducts, setCartProducts] = useState([]);
+
+  // Shopping cart counter
+  const count = cartProducts.length;
+
+  // Open/Close ProductDetail menu
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
 
-  // Product Detail - Show Product
+  // Item to show in ProductDetail menu
   const [itemToShow, setItemToShow] = useState({});
 
   return (
     <GlobalContext.Provider
       value={{
+        cartProducts,
+        setCartProducts,
         count,
-        setCount,
+        items,
+        setItems,
         openProductDetail,
         closeProductDetail,
         isProductDetailOpen,

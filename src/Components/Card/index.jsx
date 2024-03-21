@@ -12,7 +12,7 @@ const onImgLoadError = event => {
 
 const Card = forwardRef(
   ({ title, description, category, price, pictureUrl }, ref) => {
-    const { count, setCount, openProductDetail, setItemToShow } =
+    const { cartProducts, setCartProducts, openProductDetail, setItemToShow } =
       useContext(GlobalContext);
 
     const showItemDetails = () => {
@@ -24,6 +24,19 @@ const Card = forwardRef(
         pictureUrl,
       });
       openProductDetail();
+    };
+
+    const addProductToCart = () => {
+      setCartProducts([
+        ...cartProducts,
+        {
+          title,
+          description,
+          category,
+          price,
+          pictureUrl,
+        },
+      ]);
     };
 
     return (
@@ -59,7 +72,7 @@ const Card = forwardRef(
 
             <button
               className='w-full bg-zinc-950 text-card-color font-bold text-base p-3 rounded-b-[2.35rem] border-t-2 border-t-card-color border-solid hover:bg-card-color hover:text-zinc-950 hover:border-t-2 hover:border-t-transparent hover:border-solid duration-200'
-              onClick={() => setCount(count + 1)}
+              onClick={addProductToCart}
             >
               Add to Cart
             </button>
