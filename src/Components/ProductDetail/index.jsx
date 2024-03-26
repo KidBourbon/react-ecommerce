@@ -1,14 +1,9 @@
 import { useContext } from 'react';
 
 import { GlobalContext } from '../../Context';
+import { onImageLoadError } from '../../Utils';
 
-import defaultImg from '../Card/no-image.jpg';
 import { XMarkIcon } from '@heroicons/react/24/solid';
-
-const onImgLoadError = event => {
-  event.target.src = defaultImg;
-  event.onerror = null;
-};
 
 const ProductDetail = () => {
   const {
@@ -44,8 +39,8 @@ const ProductDetail = () => {
   return (
     <aside
       className={`${
-        isProductDetailOpen ? 'right-[0.1rem]' : '-right-96'
-      } flex flex-col items-center gap-4 fixed w-96 h-aside p-4 border-solid border-8 border-black outline outline-4 outline-white -outline-offset-[6px] rounded-lg bg-zinc-900 overflow-y-scroll overscroll-contain no-scrollbar transition-all ease-in-out duration-500`}
+        isProductDetailOpen ? 'right-[0rem]' : '-right-96'
+      } flex flex-col items-center gap-4 fixed top-0 w-96 h-aside mt-navbar px-3 py-4 border-solid border-8 border-black outline outline-4 outline-white -outline-offset-[6px] rounded-lg bg-zinc-900 overflow-y-scroll overscroll-contain no-scrollbar transition-all ease-in-out duration-500`}
       onClick={onClickAside}
     >
       <div className='flex justify-between items-center w-full'>
@@ -62,7 +57,7 @@ const ProductDetail = () => {
           className='w-full h-full text-white border-4 border-solid border-card-color rounded-5xl object-cover'
           src={pictureUrl}
           alt={description}
-          onError={onImgLoadError}
+          onError={onImageLoadError}
         />
 
         <span className='absolute bottom-0 left-0 ml-6 mb-5 px-2 py-0.5 rounded-lg text-zinc-950 text-sm bg-white/60'>
@@ -78,7 +73,7 @@ const ProductDetail = () => {
 
       <div className='flex-grow flex items-end w-full'>
         <button
-          className='w-full my-2 p-3 bg-zinc-950 text-card-color font-bold rounded-3xl border-2 border-card-color border-solid hover:bg-card-color hover:text-zinc-950 hover:border-t-2 hover:border-t-transparent hover:border-solid duration-200'
+          className='w-full my-2 p-3 bg-zinc-950 text-card-color font-bold rounded-3xl border-2 border-card-color border-solid hover:bg-card-color hover:text-zinc-950 transition-all duration-200'
           onClick={addProductToCart}
         >
           Add to Cart
