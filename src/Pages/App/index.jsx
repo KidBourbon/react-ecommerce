@@ -9,6 +9,7 @@ import { SignIn } from '../SignIn';
 import { Navbar } from '../../Components/Navbar';
 import { GlobalContext } from '../../Context';
 import { useContext, useEffect } from 'react';
+import { CheckoutSideMenu } from '../../Components/CheckoutSideMenu';
 
 const getProductsUrl = 'https://api.escuelajs.co/api/v1/products';
 let didFetch = false;
@@ -19,6 +20,7 @@ const AppRoutes = () => {
     { path: '/my-account', element: <MyAccount /> },
     { path: '/my-order', element: <MyOrder /> },
     { path: '/my-orders', element: <MyOrders /> },
+    { path: '/my-orders/last', element: <MyOrder /> },
     { path: '/sign-in', element: <SignIn /> },
     { path: '/*', element: <NotFound /> },
   ]);
@@ -27,7 +29,13 @@ const AppRoutes = () => {
 };
 
 const App = () => {
-  const { setItems } = useContext(GlobalContext);
+  const {
+    setProducts,
+    closeProductDetail,
+    closeCheckoutSideMenu,
+    productDetailWasClickedRef,
+    checkoutSideMenuWasClickedRef,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     if (!didFetch) {
@@ -35,14 +43,45 @@ const App = () => {
 
       fetch(getProductsUrl)
         .then(response => response.json())
-        .then(data => setItems(data));
+        .then(data => setProducts(data));
     }
+  }, []);
+
+  useEffect(() => {
+    const onClick = () => {
+      const productDetailWasClicked = productDetailWasClickedRef.current;
+      if (productDetailWasClicked) {
+        productDetailWasClickedRef.current = false;
+        return;
+      }
+
+      closeProductDetail();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, []);
+
+  useEffect(() => {
+    const onClick = () => {
+      const checkoutSideMenuWasClicked = checkoutSideMenuWasClickedRef.current;
+      if (checkoutSideMenuWasClicked) {
+        checkoutSideMenuWasClickedRef.current = false;
+        return;
+      }
+
+      closeCheckoutSideMenu();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
   }, []);
 
   return (
     <BrowserRouter>
       <Navbar />
       <AppRoutes />
+      <CheckoutSideMenu />
     </BrowserRouter>
   );
 };
