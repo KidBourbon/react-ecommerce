@@ -26,10 +26,15 @@ const navbarRightTabs = [
 ];
 
 const Navbar = () => {
-  const { count } = useContext(GlobalContext);
+  const { count, openCheckoutSideMenu } = useContext(GlobalContext);
+
+  const onClickShoppingCartIcon = event => {
+    event.stopPropagation();
+    openCheckoutSideMenu();
+  };
 
   return (
-    <nav className='w-full h-[4.375rem] flex justify-between items-center fixed top-0 gap-4 py-5 pl-8 pr-10 border-b-2 border-zinc-400 text-base font-normal text-white bg-zinc-900 z-10'>
+    <nav className='w-full h-navbar flex justify-between items-center fixed top-0 gap-4 py-5 pl-8 pr-10 border-b-2 border-zinc-400 text-base font-normal text-white bg-zinc-900 z-10'>
       <ul className='flex items-center gap-4'>
         <li className='font-semibold text-2xl mr-4'>
           <NavLink to='/'>Shopi</NavLink>
@@ -43,9 +48,7 @@ const Navbar = () => {
             <NavLink
               to={url}
               className={({ isActive }) =>
-                isActive
-                  ? baseStyle + ' ' + activeStyle
-                  : baseStyle + ' ' + inactiveStyle
+                isActive ? baseStyle + ' ' + activeStyle : baseStyle + ' ' + inactiveStyle
               }
             >
               {title}
@@ -65,9 +68,7 @@ const Navbar = () => {
             <NavLink
               to={url}
               className={({ isActive }) =>
-                isActive
-                  ? baseStyle + ' ' + activeStyle
-                  : baseStyle + ' ' + inactiveStyle
+                isActive ? baseStyle + ' ' + activeStyle : baseStyle + ' ' + inactiveStyle
               }
             >
               {title}
@@ -75,8 +76,11 @@ const Navbar = () => {
           </li>
         ))}
 
-        <li className='relative'>
-          <ShoppingCartIcon className='w-6 h-6 ' />
+        <li
+          className='relative cursor-pointer'
+          onClick={onClickShoppingCartIcon}
+        >
+          <ShoppingCartIcon className='w-6 h-6' />
 
           <div className='flex justify-center items-center absolute -top-[0.625rem] left-3 px-[0.375rem] text-sm text-white rounded-full bg-card-color'>
             <span>{count < 100 ? count : '99+'}</span>
