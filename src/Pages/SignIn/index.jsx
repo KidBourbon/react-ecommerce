@@ -1,7 +1,13 @@
 import { Layout } from '../../Components/Layout';
 
 function SignIn() {
-  return <Layout>Sign In</Layout>;
+  return (
+    <Layout>
+      <h1 className='mb-6 text-4xl font-medium text-center text-white'>
+        You are logged in as KidBourbon!
+      </h1>
+    </Layout>
+  );
 }
 
 export { SignIn };
