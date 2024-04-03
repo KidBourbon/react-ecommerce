@@ -1,16 +1,53 @@
-import { createContext, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
+
+import { getLastSegmentOfCurrentPath } from '../Utils';
+
+const getProductsUrl = 'https://api.escuelajs.co/api/v1/products';
+let didFetch = false;
 
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
+  // Still fetching products?
+  const [fetching, setFetching] = useState(false);
+
   // All products in store
   const [products, setProducts] = useState([]);
+
+  // Current product category to display
+  const [searchByCategory, setSearchByCategory] = useState(getLastSegmentOfCurrentPath());
+
+  const getProductsByCategory = category =>
+    category === ''
+      ? products
+      : products.filter(product => {
+          const productCategory = product.category.name.toLowerCase();
+          const categoryToCompare = category.toLowerCase();
+
+          return productCategory.includes(categoryToCompare);
+        });
+
+  const productsFilteredByCategory = getProductsByCategory(searchByCategory);
+
+  // Products searched by title
+  const [searchByTitle, setSearchByTitle] = useState('');
+
+  const getProductsByTitle = title =>
+    productsFilteredByCategory.filter(product => {
+      const productTitle = product.title.toLowerCase();
+      const titleToCompare = title.toLowerCase();
+
+      return productTitle.includes(titleToCompare);
+    });
+
+  const filteredProducts =
+    searchByTitle.trim() === '' ? productsFilteredByCategory : getProductsByTitle(searchByTitle);
 
   // Products in cart
   const [cartProducts, setCartProducts] = useState([]);
 
   // Shopping cart counter
-  const count = cartProducts.reduce((totalAmount, product) => {
+  const totalProducts = cartProducts.reduce((totalAmount, product) => {
     return totalAmount + product.amount;
   }, 0);
 
@@ -21,6 +58,11 @@ const GlobalProvider = ({ children }) => {
 
   // Shopping cart orders
   const [orders, setOrders] = useState([]);
+
+  // Open/Close Navbar Side Menu
+  const [isNavbarSideMenuOpen, setIsNavbarSideMenuOpen] = useState(false);
+  const openNavbarSideMenu = () => setIsNavbarSideMenuOpen(true);
+  const closeNavbarSideMenu = () => setIsNavbarSideMenuOpen(false);
 
   // Open/Close Product Detail menu
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
@@ -36,6 +78,7 @@ const GlobalProvider = ({ children }) => {
   const [itemToShow, setItemToShow] = useState({});
 
   // References that store if some components have been clicked on
+  const navbarSideMenuWasClickedRef = useRef(false);
   const productDetailWasClickedRef = useRef(false);
   const checkoutSideMenuWasClickedRef = useRef(false);
 
@@ -101,17 +144,86 @@ const GlobalProvider = ({ children }) => {
     setCartProducts(newCartProducts);
   };
 
+  useEffect(() => {
+    if (!didFetch) {
+      didFetch = true;
+
+      setFetching(true);
+
+      fetch(getProductsUrl)
+        .then(response => response.json())
+        .then(data => {
+          setProducts(data);
+          setFetching(false);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const onClick = () => {
+      const navbarSideMenuWasClicked = navbarSideMenuWasClickedRef.current;
+      if (navbarSideMenuWasClicked) {
+        navbarSideMenuWasClickedRef.current = false;
+        return;
+      }
+
+      closeNavbarSideMenu();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, []);
+
+  useEffect(() => {
+    const onClick = () => {
+      const productDetailWasClicked = productDetailWasClickedRef.current;
+      if (productDetailWasClicked) {
+        productDetailWasClickedRef.current = false;
+        return;
+      }
+
+      closeProductDetail();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, []);
+
+  useEffect(() => {
+    const onClick = () => {
+      const checkoutSideMenuWasClicked = checkoutSideMenuWasClickedRef.current;
+      if (checkoutSideMenuWasClicked) {
+        checkoutSideMenuWasClickedRef.current = false;
+        return;
+      }
+
+      closeCheckoutSideMenu();
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, []);
+
   return (
     <GlobalContext.Provider
       value={{
+        fetching,
         products,
         setProducts,
+        searchByTitle,
+        setSearchByTitle,
+        setSearchByCategory,
+        productsFilteredByCategory,
+        filteredProducts,
         cartProducts,
         setCartProducts,
-        count,
+        totalProducts,
         totalPrice,
         orders,
         setOrders,
+        isNavbarSideMenuOpen,
+        openNavbarSideMenu,
+        closeNavbarSideMenu,
         isProductDetailOpen,
         openProductDetail,
         closeProductDetail,
@@ -120,6 +232,7 @@ const GlobalProvider = ({ children }) => {
         closeCheckoutSideMenu,
         itemToShow,
         setItemToShow,
+        navbarSideMenuWasClickedRef,
         productDetailWasClickedRef,
         checkoutSideMenuWasClickedRef,
         addProductToCart,
