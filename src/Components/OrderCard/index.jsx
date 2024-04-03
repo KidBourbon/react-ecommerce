@@ -46,7 +46,7 @@ const OrderCard = ({
   );
 
   return (
-    <div className='relative w-full h-24 flex justify-between items-center gap-2 p-1 border border-solid border-white rounded-lg'>
+    <div className='relative w-full h-24 flex justify-between items-center gap-2 py-1 pl-1 pr-1 sm:pr-2 border border-solid border-white rounded-lg'>
       <div className='h-full flex items-center gap-2'>
         <figure className='relative h-full shrink-0'>
           <img
