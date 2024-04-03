@@ -18,6 +18,7 @@ const Card = ({ id, title, description, category, price, pictureUrl }) => {
   const onClickCard = event => {
     event.stopPropagation();
     setItemToShow({
+      id,
       title,
       description,
       category,
