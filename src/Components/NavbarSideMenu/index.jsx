@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalContext } from '../../Context';
+import { getLastSegmentOfGivenPath } from '../../Utils';
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
@@ -27,8 +28,12 @@ const otherTabs = [
 ];
 
 const NavbarSideMenu = () => {
-  const { navbarSideMenuWasClickedRef, isNavbarSideMenuOpen, closeNavbarSideMenu } =
-    useContext(GlobalContext);
+  const {
+    setSearchByCategory,
+    navbarSideMenuWasClickedRef,
+    isNavbarSideMenuOpen,
+    closeNavbarSideMenu,
+  } = useContext(GlobalContext);
 
   const updateNavbarSideMenuWasClickedRef = wasClicked => {
     navbarSideMenuWasClickedRef.current = wasClicked;
@@ -66,6 +71,7 @@ const NavbarSideMenu = () => {
                   : tabBaseStyle + ' ' + tabInactiveStyle
               }
               onClick={() => {
+                closeNavbarSideMenu();
                 const category = getLastSegmentOfGivenPath(url);
                 setSearchByCategory(category);
               }}
@@ -92,6 +98,7 @@ const NavbarSideMenu = () => {
                   : tabBaseStyle + ' ' + tabInactiveStyle
               }
               onClick={() => {
+                closeNavbarSideMenu();
                 const category = getLastSegmentOfGivenPath(url);
                 setSearchByCategory(category);
               }}
