@@ -11,7 +11,7 @@ const CheckoutSideMenu = () => {
   const {
     cartProducts,
     setCartProducts,
-    count,
+    totalProducts,
     totalPrice,
     orders,
     setOrders,
@@ -27,23 +27,26 @@ const CheckoutSideMenu = () => {
   const onClickAside = () => updateCheckoutSideMenuWasClickedRef(true);
 
   const handleCheckout = () => {
-    const newOrder = {
-      id: Date.now(),
-      dateCreated: new Date(),
-      products: cartProducts,
-      count,
-      totalPrice,
-    };
+    if (cartProducts.length > 0) {
+      const newOrder = {
+        id: Date.now().toString(),
+        dateCreated: new Date(),
+        products: cartProducts,
+        totalProducts,
+        totalPrice,
+      };
 
-    setOrders([...orders, newOrder]);
-    setCartProducts([]);
+      setOrders([...orders, newOrder]);
+      setCartProducts([]);
+      closeCheckoutSideMenu();
+    }
   };
 
   return (
     <aside
       className={`${
-        isCheckoutSideMenuOpen ? 'right-[0rem]' : '-right-96'
-      } flex flex-col items-center gap-5 fixed top-0 w-96 h-aside px-3 py-4 mt-navbar border-solid border-8 border-black outline outline-4 outline-white -outline-offset-[6px] rounded-lg bg-zinc-900 overflow-y-scroll overscroll-contain no-scrollbar transition-all ease-in-out duration-500`}
+        isCheckoutSideMenuOpen ? 'right-[0rem]' : '-right-[26rem]'
+      } w-screen max-w-[26rem] h-aside mt-navbar px-2 sm:px-4 py-4 flex flex-col items-center gap-5 fixed top-0 border-solid border-8 border-black outline outline-4 outline-white -outline-offset-[6px] rounded-lg bg-zinc-900 overflow-y-scroll overscroll-contain no-scrollbar transition-all ease-in-out duration-500`}
       onClick={onClickAside}
     >
       <div className='flex justify-between items-center w-full mb-5'>
@@ -78,12 +81,13 @@ const CheckoutSideMenu = () => {
       </p>
 
       <Link
-        to='/my-orders/last'
+        to={'/my-orders/last'}
         className='w-full mb-2'
       >
         <button
-          className='w-full p-3 bg-zinc-950 text-card-color font-bold rounded-3xl border-2 border-card-color border-solid hover:bg-card-color hover:text-zinc-950 transition-all duration-200'
+          className='w-full p-3 bg-zinc-950 disabled:bg-zinc-800 text-card-color disabled:text-zinc-600 font-bold rounded-3xl border-2 border-card-color disabled:border-zinc-600 border-solid hover:bg-card-color hover:text-zinc-950 transition-all duration-200'
           onClick={handleCheckout}
+          disabled={cartProducts.length === 0}
         >
           Checkout
         </button>
