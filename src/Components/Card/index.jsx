@@ -7,6 +7,7 @@ import './styles.css';
 
 const Card = ({ id, title, description, category, price, pictureUrl }) => {
   const {
+    closeNavbarSideMenu,
     openProductDetail,
     closeProductDetail,
     openCheckoutSideMenu,
@@ -25,6 +26,8 @@ const Card = ({ id, title, description, category, price, pictureUrl }) => {
       price,
       pictureUrl,
     });
+
+    closeNavbarSideMenu();
     closeCheckoutSideMenu();
     openProductDetail();
   };
@@ -32,6 +35,8 @@ const Card = ({ id, title, description, category, price, pictureUrl }) => {
   const onClickButton = event => {
     event.stopPropagation();
     addProductToCart({ id, title, description, category, price, pictureUrl });
+
+    closeNavbarSideMenu();
     closeProductDetail();
     openCheckoutSideMenu();
   };
