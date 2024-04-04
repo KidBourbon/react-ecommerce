@@ -1,6 +1,6 @@
 # React Ecommerce
 
-### E-commerce where I hope you will find what you are looking for :)
+### E-commerce where you can find a wide variety of products and I hope you find what you are looking for :)
 
 #### Link: https://react-ecommerce-kb.netlify.app/
 
