@@ -1,8 +1,8 @@
 # React Ecommerce
 
-### E-commerce where you can find a wide variety of products and I hope you find what you are looking for :)
+### Link: https://react-ecommerce-kb.netlify.app/
 
-#### Link: https://react-ecommerce-kb.netlify.app/
+#### E-commerce where you can find a wide variety of products and I hope you find what you are looking for :)
 
 ✅ Made with:
 - react [18.2.0]
