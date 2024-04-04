@@ -16,7 +16,7 @@
 
 ✅ Made under the Desktop First design approach.
 
-✅ The website is fully responsive to small screen devices, such as mobiles and tablets.
+✅ The website is also fully responsive to small screen devices, such as mobiles and tablets.
 
 ✅ Deployment with Netlify.
 
